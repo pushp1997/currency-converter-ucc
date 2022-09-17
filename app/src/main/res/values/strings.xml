@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CurrencyConverter</string>
+    <string name="Heading1">Amount</string>
+    <string name="Heading2">From</string>
+    <string name="Heading3">To</string>
 </resources>
