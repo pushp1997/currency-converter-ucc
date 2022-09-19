@@ -89,28 +89,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Requesting conversion from the provider apilayer.com
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, Constants.API_CONVERSION_URL, null, response -> {
-                    String result = null;
+                (Request.Method.GET, String.format("%s?to=%s&from=%s&amount=%s", Constants.API_CONVERSION_URL, to, from, amount), null, response -> {
                     try {
-                        result = response.get("result").toString();
+                        String result = response.get("result").toString();
+                        outputTextView.setText(String.format("Output: %s %s", result, to));
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        outputTextView.setText(e.toString());
                     }
-                    String finalResult = result;
-                    MainActivity.this.runOnUiThread(() -> outputTextView.setText(String.format("Output: %s%s", finalResult, to)));
                 }, Throwable::printStackTrace){
             @Override
             public Map<String, String> getHeaders()  {
                 Map<String, String>  params = new HashMap<>();
                 params.put("apikey", Constants.API_KEY);
-                return params;
-            }
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("to", to);
-                params.put("from", from);
-                params.put("amount", amount);
                 return params;
             }
         };
